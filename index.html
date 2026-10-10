@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<!--
+  Divine Group — Bootstrap 5 landing template
+  Concept, copy and figures based on https://divinetextile.com/DG5/
+  Photos, logos, client marks and certificate badges in img/ were downloaded from that site.
+  Two stock photos (Sample & CAD, Finishing & Packing tabs) load from Unsplash with local fallbacks.
+  Testimonials are sample text. Contact form is front-end only; wire the submit handler to your backend.
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Divine Group — Sustainable Knitwear Manufacturing</title>
+  <meta name="description" content="Divine Group is a vertically integrated textile and apparel manufacturer from Bangladesh, redefining knitwear excellence through sustainable fabric innovation since 1996.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5 + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+  <style>
+    /* =========================================================
+       DESIGN TOKENS
+       ========================================================= */
+    :root {
+      --dg-lime: #85c41c;
+      --dg-lime-dark: #6ea316;
+      --dg-olive: #75983c;
+      --dg-forest: #0f2a1d;
+      --dg-forest-2: #16402c;
+      --dg-ink: #121a16;
+      --dg-slate: #5b6660;
+      --dg-mist: #f4f7f2;
+      --dg-line: #e3e9e1;
+      --dg-white: #ffffff;
+      --dg-radius: 18px;
+      --dg-shadow: 0 20px 50px -20px rgba(15, 42, 29, .35);
+      --dg-font-head: 'Poppins', system-ui, sans-serif;
+      --dg-font-body: 'Inter', system-ui, sans-serif;
+      --bs-primary: var(--dg-lime);
+      --bs-primary-rgb: 133, 196, 28;
+      --bs-link-color: var(--dg-olive);
+      --bs-link-hover-color: var(--dg-lime-dark);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--dg-font-body);
+      color: var(--dg-ink);
+      background: var(--dg-white);
+      overflow-x: hidden;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--dg-font-head);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--dg-ink);
+    }
+    p { color: var(--dg-slate); line-height: 1.75; }
+    section { position: relative; }
+    .section { padding: 110px 0; }
+    .section-sm { padding: 70px 0; }
+    .bg-mist { background: var(--dg-mist); }
+    .bg-forest { background: var(--dg-forest); }
+    .text-lime { color: var(--dg-lime) !important; }
+    .text-forest { color: var(--dg-forest) !important; }
+    .text-light-70 { color: rgba(255,255,255,.72) !important; }
+    @media (max-width: 767.98px) { .section { padding: 72px 0; } }
+
+    /* Eyebrow + headings */
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--dg-font-head); font-size: .78rem; font-weight: 600;
+      letter-spacing: .18em; text-transform: uppercase; color: var(--dg-olive);
+      margin-bottom: 14px;
+    }
+    .eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--dg-lime); border-radius: 2px; }
+    .eyebrow.center::after { content: ""; width: 28px; height: 2px; background: var(--dg-lime); border-radius: 2px; }
+    .section-title { font-size: clamp(1.9rem, 3.2vw, 2.8rem); line-height: 1.15; margin-bottom: 16px; }
+    .section-lead { font-size: 1.05rem; max-width: 640px; }
+
+    /* Buttons */
+    .btn { font-family: var(--dg-font-head); font-weight: 600; border-radius: 999px; padding: .8rem 1.7rem; transition: all .25s ease; }
+    .btn-lime { background: var(--dg-lime); color: var(--dg-forest); border: 2px solid var(--dg-lime); }
+    .btn-lime:hover { background: var(--dg-lime-dark); border-color: var(--dg-lime-dark); color: #fff; transform: translateY(-2px); box-shadow: 0 12px 24px -10px rgba(133,196,28,.7); }
+    .btn-outline-light-2 { border: 2px solid rgba(255,255,255,.45); color: #fff; }
+    .btn-outline-light-2:hover { background: #fff; color: var(--dg-forest); border-color: #fff; }
+    .btn-outline-forest { border: 2px solid var(--dg-forest); color: var(--dg-forest); }
+    .btn-outline-forest:hover { background: var(--dg-forest); color: #fff; }
+    .btn-forest { background: var(--dg-forest); color: #fff; border: 2px solid var(--dg-forest); }
+    .btn-forest:hover { background: var(--dg-forest-2); color: #fff; }
+    .btn .bi { transition: transform .25s; }
+    .btn:hover .bi-arrow-right { transform: translateX(4px); }
+
+    /* =========================================================
+       TOP BAR + NAVBAR
+       ========================================================= */
+    .topbar { background: var(--dg-forest); color: rgba(255,255,255,.8); font-size: .82rem; }
+    .topbar a { color: rgba(255,255,255,.85); text-decoration: none; }
+    .topbar a:hover { color: var(--dg-lime); }
+    .topbar .bi { color: var(--dg-lime); }
+
+    .navbar-dg {
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--dg-line);
+      transition: box-shadow .3s, padding .3s;
+      padding: 14px 0;
+    }
+    .navbar-dg.scrolled { box-shadow: 0 10px 30px -15px rgba(0,0,0,.25); padding: 8px 0; }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .brand-mark {
+      width: 42px; height: 42px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--dg-lime), var(--dg-olive));
+      display: grid; place-items: center; color: #fff; font-weight: 800; font-family: var(--dg-font-head);
+      box-shadow: 0 8px 16px -8px rgba(133,196,28,.8);
+    }
+    .brand-logo { height: 46px; width: auto; }
+    .brand-text { font-family: var(--dg-font-head); font-weight: 700; font-size: 1.25rem; color: var(--dg-forest); line-height: 1; }
+    .brand-text small { display: block; font-size: .62rem; font-weight: 500; letter-spacing: .22em; color: var(--dg-olive); margin-top: 3px; }
+    .navbar-dg .nav-link { font-family: var(--dg-font-head); font-weight: 500; font-size: .93rem; color: var(--dg-ink); padding: .5rem .9rem !important; position: relative; }
+    .navbar-dg .nav-link::after { content: ""; position: absolute; left: .9rem; right: .9rem; bottom: 2px; height: 2px; background: var(--dg-lime); transform: scaleX(0); transform-origin: left; transition: transform .25s; }
+    .navbar-dg .nav-link:hover::after, .navbar-dg .nav-link.active::after { transform: scaleX(1); }
+    .navbar-dg .dropdown-menu { border: 0; border-radius: 14px; box-shadow: 0 24px 50px -20px rgba(0,0,0,.3); padding: 10px; margin-top: 12px; min-width: 230px; }
+    .navbar-dg .dropdown-item { border-radius: 8px; padding: 9px 14px; font-size: .9rem; font-weight: 500; }
+    .navbar-dg .dropdown-item:hover { background: var(--dg-mist); color: var(--dg-olive); }
+    .navbar-dg .dropdown-header { font-family: var(--dg-font-head); font-size: .68rem; letter-spacing: .15em; text-transform: uppercase; color: var(--dg-olive); font-weight: 600; }
+    @media (min-width: 992px) {
+      .navbar-dg .dropdown:hover > .dropdown-menu { display: block; animation: ddIn .25s ease; }
+      .mega { min-width: 540px; }
+    }
+    @keyframes ddIn { from { opacity: 0; transform: translateY(8px);} to { opacity: 1; transform: translateY(0);} }
+
+    /* =========================================================
+       HERO
+       ========================================================= */
+    .hero {
+      position: relative;
+      min-height: clamp(640px, 92vh, 920px);
+      display: flex; align-items: center;
+      color: #fff;
+      background: var(--dg-forest);
+      overflow: hidden;
+      padding: 100px 0 140px;
+    }
+    .hero-slide {
+      position: absolute; inset: 0;
+      background-position: center; background-size: cover; background-repeat: no-repeat;
+      opacity: 0; transform: scale(1.05);
+      transition: opacity 1.4s ease;
+    }
+    .hero-slide.active { opacity: .5; animation: heroZoom 9s ease-in-out forwards; }
+    @keyframes heroZoom { to { transform: scale(1.15); } }
+    .hero-dots { position: absolute; right: 6%; top: 50%; transform: translateY(-50%); z-index: 3; display: flex; flex-direction: column; gap: 10px; }
+    .hero-dots button { width: 10px; height: 10px; border-radius: 50%; border: 0; background: rgba(255,255,255,.35); padding: 0; transition: all .3s; }
+    .hero-dots button.active { background: var(--dg-lime); height: 28px; border-radius: 6px; }
+    .hero::before {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(100deg, rgba(15,42,29,.95) 0%, rgba(15,42,29,.75) 45%, rgba(15,42,29,.3) 100%);
+    }
+    .hero .container { position: relative; z-index: 2; min-width: 0; width: 100%; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18);
+      padding: 7px 16px; border-radius: 999px; font-size: .8rem; font-weight: 500; letter-spacing: .04em;
+    }
+    .hero-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--dg-lime); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { box-shadow: 0 0 0 4px rgba(133,196,28,.25);} 50% { box-shadow: 0 0 0 9px rgba(133,196,28,0);} }
+    .hero h1 { color: #fff; font-size: clamp(2.4rem, 5.2vw, 4.4rem); line-height: 1.08; font-weight: 800; }
+    .hero h1 .accent { color: var(--dg-lime); }
+    .hero p.lead { color: rgba(255,255,255,.78); font-size: 1.12rem; max-width: 560px; }
+    .hero-floating {
+      position: absolute; right: 6%; bottom: 18%; z-index: 2;
+      background: rgba(255,255,255,.08); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,.18); border-radius: var(--dg-radius);
+      padding: 22px 26px; max-width: 320px; color: #fff;
+      animation: floatY 6s ease-in-out infinite;
+    }
+    @keyframes floatY { 0%,100% { transform: translateY(0);} 50% { transform: translateY(-12px);} }
+    .hero-floating .big { font-family: var(--dg-font-head); font-size: 2rem; font-weight: 800; color: var(--dg-lime); line-height: 1; }
+    .scroll-hint { position: absolute; left: 50%; bottom: 96px; transform: translateX(-50%); z-index: 2; color: rgba(255,255,255,.6); font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; text-align: center; }
+    .scroll-hint .bi { display: block; animation: bob 1.6s infinite; }
+    @keyframes bob { 0%,100% { transform: translateY(0);} 50% { transform: translateY(6px);} }
+
+    /* Stats strip */
+    .stats-strip { margin-top: -80px; position: relative; z-index: 5; }
+    .stats-card {
+      background: #fff; border-radius: var(--dg-radius); box-shadow: var(--dg-shadow);
+      padding: 24px 10px; border: 1px solid var(--dg-line);
+    }
+    .stat { text-align: center; padding: 14px; }
+    .stat .num { font-family: var(--dg-font-head); font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 800; color: var(--dg-forest); line-height: 1; }
+    .stat .num span.accent { color: var(--dg-lime); }
+    .stat .lbl { font-size: .85rem; color: var(--dg-slate); margin-top: 8px; font-weight: 500; }
+    @media (min-width: 768px) { .stat + .stat { border-left: 1px solid var(--dg-line); } }
+
+    /* =========================================================
+       ABOUT
+       ========================================================= */
+    .about-img-wrap { position: relative; }
+    .about-img { border-radius: var(--dg-radius); width: 100%; height: 560px; object-fit: cover; box-shadow: var(--dg-shadow); }
+    .about-img-2 { position: absolute; right: -30px; bottom: -40px; width: 240px; height: 240px; object-fit: cover; border-radius: var(--dg-radius); border: 8px solid #fff; box-shadow: var(--dg-shadow); }
+    .about-badge {
+      position: absolute; left: -24px; top: 40px;
+      background: var(--dg-lime); color: var(--dg-forest); border-radius: 16px; padding: 18px 22px;
+      font-family: var(--dg-font-head); box-shadow: 0 16px 30px -12px rgba(133,196,28,.8);
+    }
+    .about-badge .y { font-size: 2.4rem; font-weight: 800; line-height: 1; }
+    .about-badge .t { font-size: .75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+    @media (max-width: 991.98px) { .about-img { height: 420px; } .about-img-2 { right: 10px; bottom: -30px; width: 180px; height: 180px; } .about-badge { left: 10px; } .about-img-wrap { margin-bottom: 40px; } }
+    .reason { display: flex; gap: 16px; padding: 16px; border-radius: 14px; transition: background .25s, transform .25s; }
+    .reason:hover { background: var(--dg-mist); transform: translateX(6px); }
+    .reason .ic { flex: 0 0 48px; width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center; background: rgba(133,196,28,.14); color: var(--dg-olive); font-size: 1.3rem; }
+    .reason h6 { margin: 0 0 4px; font-size: 1rem; }
+    .reason p { margin: 0; font-size: .9rem; }
+
+    /* =========================================================
+       PROCESS
+       ========================================================= */
+    .process-step { position: relative; padding: 32px 26px; background: #fff; border-radius: var(--dg-radius); border: 1px solid var(--dg-line); height: 100%; transition: transform .3s, box-shadow .3s, border-color .3s; }
+    .process-step:hover { transform: translateY(-8px); box-shadow: var(--dg-shadow); border-color: transparent; }
+    .process-step .no { font-family: var(--dg-font-head); font-size: 3rem; font-weight: 800; color: rgba(133,196,28,.18); line-height: 1; position: absolute; top: 16px; right: 20px; }
+    .process-step .ic { width: 56px; height: 56px; border-radius: 14px; background: var(--dg-forest); color: var(--dg-lime); display: grid; place-items: center; font-size: 1.5rem; margin-bottom: 20px; }
+    .process-step h5 { font-size: 1.05rem; }
+    .process-step p { font-size: .9rem; margin: 0; }
+    .process-line { position: absolute; top: 60px; left: 10%; right: 10%; height: 2px; background: repeating-linear-gradient(90deg, var(--dg-lime) 0 10px, transparent 10px 18px); opacity: .5; }
+
+    /* =========================================================
+       SERVICES
+       ========================================================= */
+    .service-card {
+      position: relative; border-radius: var(--dg-radius); overflow: hidden; height: 400px;
+      display: flex; align-items: flex-end; color: #fff; text-decoration: none; isolation: isolate;
+    }
+    .service-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .7s ease; z-index: -2; }
+    .service-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(15,42,29,.95) 0%, rgba(15,42,29,.45) 50%, rgba(15,42,29,.05) 100%); z-index: -1; }
+    .service-card:hover img { transform: scale(1.08); }
+    .service-card .body { padding: 28px; width: 100%; transform: translateY(14px); transition: transform .4s; }
+    .service-card:hover .body { transform: translateY(0); }
+    .service-card .tag { display: inline-block; background: var(--dg-lime); color: var(--dg-forest); font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; margin-bottom: 12px; }
+    .service-card h4 { color: #fff; font-size: 1.4rem; margin-bottom: 6px; }
+    .service-card p { color: rgba(255,255,255,.8); font-size: .9rem; margin: 0; max-height: 0; opacity: 0; overflow: hidden; transition: all .4s; }
+    .service-card:hover p { max-height: 120px; opacity: 1; margin-top: 6px; }
+    .service-card .meta { display: flex; gap: 18px; margin-top: 14px; font-size: .78rem; color: rgba(255,255,255,.85); }
+    .service-card .meta b { display: block; color: var(--dg-lime); font-family: var(--dg-font-head); font-size: 1.05rem; }
+
+    /* Capability tabs (Garments) */
+    .cap-tabs .nav-link { border: 1px solid var(--dg-line); border-radius: 999px; color: var(--dg-ink); font-family: var(--dg-font-head); font-weight: 600; padding: .65rem 1.4rem; margin: 4px; background: #fff; }
+    .cap-tabs .nav-link.active { background: var(--dg-forest); color: #fff; border-color: var(--dg-forest); }
+    .cap-panel { background: #fff; border-radius: var(--dg-radius); overflow: hidden; border: 1px solid var(--dg-line); box-shadow: var(--dg-shadow); }
+    .cap-panel img { width: 100%; height: 100%; min-height: 380px; object-fit: cover; }
+    @media (max-width: 991.98px) { .cap-panel img { min-height: 260px; max-height: 320px; } }
+    .kpi { display: flex; flex-direction: column; padding: 14px 16px; border-radius: 12px; background: var(--dg-mist); height: 100%; }
+    .kpi b { font-family: var(--dg-font-head); font-size: 1.35rem; color: var(--dg-forest); }
+    .kpi span { font-size: .78rem; color: var(--dg-slate); font-weight: 500; }
+    .check-list { list-style: none; padding: 0; margin: 0; }
+    .check-list li { padding: 6px 0 6px 30px; position: relative; font-size: .93rem; color: var(--dg-ink); }
+    .check-list li::before { content: "\F26A"; font-family: "bootstrap-icons"; position: absolute; left: 0; top: 6px; color: var(--dg-lime); font-size: 1.1rem; }
+
+    /* =========================================================
+       SUSTAINABILITY
+       ========================================================= */
+    .sustain { color: #fff; }
+    .sustain::before { content: ""; position: absolute; inset: 0; background: radial-gradient(800px 400px at 10% 10%, rgba(133,196,28,.25), transparent 60%), radial-gradient(600px 400px at 90% 90%, rgba(117,152,60,.3), transparent 60%); }
+    .sustain .container { position: relative; }
+    .sustain h2, .sustain h5 { color: #fff; }
+    .eco-card { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); border-radius: var(--dg-radius); padding: 30px 26px; height: 100%; transition: all .3s; }
+    .eco-card:hover { background: rgba(133,196,28,.12); border-color: rgba(133,196,28,.5); transform: translateY(-6px); }
+    .eco-card .ic { width: 58px; height: 58px; border-radius: 50%; background: var(--dg-lime); color: var(--dg-forest); display: grid; place-items: center; font-size: 1.5rem; margin-bottom: 18px; }
+    .eco-card h5 { font-size: 1.05rem; }
+    .eco-card p { color: rgba(255,255,255,.7); font-size: .9rem; margin: 0; }
+    .progress-eco { height: 8px; background: rgba(255,255,255,.12); border-radius: 999px; overflow: hidden; }
+    .progress-eco span { display: block; height: 100%; background: var(--dg-lime); width: 0; transition: width 1.4s ease; border-radius: 999px; }
+
+    /* =========================================================
+       PRODUCTS
+       ========================================================= */
+    .product-card { position: relative; border-radius: var(--dg-radius); overflow: hidden; background: var(--dg-mist); aspect-ratio: 3/4; }
+    .product-card img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s; }
+    .product-card:hover img { transform: scale(1.06); }
+    .product-card .label { position: absolute; left: 12px; right: 12px; bottom: 12px; background: rgba(255,255,255,.92); backdrop-filter: blur(8px); border-radius: 12px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; }
+    .product-card .label h6 { margin: 0; font-size: .92rem; }
+    .product-card .label small { color: var(--dg-slate); font-size: .68rem; }
+    .product-card .label .bi { color: var(--dg-olive); }
+
+    /* =========================================================
+       CLIENTS (marquee) + CERTIFICATIONS
+       ========================================================= */
+    .marquee { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
+    .marquee-track { display: flex; gap: 20px; width: max-content; animation: marquee 40s linear infinite; }
+    .marquee:hover .marquee-track { animation-play-state: paused; }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+    .client-logo { flex: 0 0 auto; width: 200px; height: 90px; border: 1px solid var(--dg-line); border-radius: 14px; display: grid; place-items: center; background: #fff; padding: 16px 24px; transition: all .3s; }
+    .client-logo img { max-width: 100%; max-height: 100%; object-fit: contain; filter: grayscale(1); opacity: .65; transition: all .3s; }
+    .client-logo:hover { border-color: var(--dg-lime); box-shadow: var(--dg-shadow); }
+    .client-logo:hover img { filter: none; opacity: 1; }
+    .cert { background: #fff; border: 1px solid var(--dg-line); border-radius: 14px; padding: 16px; height: 110px; display: grid; place-items: center; transition: all .3s; }
+    .cert:hover { border-color: var(--dg-lime); box-shadow: var(--dg-shadow); transform: translateY(-4px); }
+    .cert img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+    /* =========================================================
+       TESTIMONIALS
+       ========================================================= */
+    .testi { background: #fff; border-radius: var(--dg-radius); padding: 34px 30px; border: 1px solid var(--dg-line); height: 100%; position: relative; }
+    .testi::before { content: "\F6B0"; font-family: "bootstrap-icons"; position: absolute; top: 18px; right: 24px; font-size: 2.6rem; color: rgba(133,196,28,.25); }
+    .testi .stars { color: #f5b301; font-size: .9rem; margin-bottom: 12px; }
+    .testi p { font-size: .95rem; color: var(--dg-ink); }
+    .testi .who { display: flex; align-items: center; gap: 12px; margin-top: 20px; }
+    .testi .who .av { width: 46px; height: 46px; border-radius: 50%; background: linear-gradient(135deg, var(--dg-lime), var(--dg-olive)); color: #fff; display: grid; place-items: center; font-weight: 700; font-family: var(--dg-font-head); }
+    .testi .who b { display: block; font-family: var(--dg-font-head); font-size: .92rem; }
+    .testi .who small { color: var(--dg-slate); }
+
+    /* =========================================================
+       CTA
+       ========================================================= */
+    .cta-band { border-radius: 28px; background: linear-gradient(120deg, var(--dg-forest) 0%, var(--dg-forest-2) 60%, #244f3a 100%); color: #fff; padding: 64px 48px; position: relative; overflow: hidden; }
+    .cta-band::after { content: ""; position: absolute; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle, rgba(133,196,28,.35), transparent 65%); right: -120px; top: -140px; }
+    .cta-band h2 { color: #fff; }
+    .cta-band > .row { position: relative; z-index: 1; }
+    @media (max-width: 767.98px) { .cta-band { padding: 44px 28px; } }
+
+    /* =========================================================
+       CONTACT
+       ========================================================= */
+    .contact-info { background: var(--dg-forest); color: #fff; border-radius: var(--dg-radius); padding: 40px 34px; height: 100%; }
+    .contact-info h4 { color: #fff; }
+    .contact-info .row-i { display: flex; gap: 16px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,.1); }
+    .contact-info .row-i:last-of-type { border: 0; }
+    .contact-info .row-i .ic { width: 44px; height: 44px; border-radius: 12px; background: rgba(133,196,28,.18); color: var(--dg-lime); display: grid; place-items: center; font-size: 1.2rem; flex: 0 0 44px; }
+    .contact-info .row-i small { color: rgba(255,255,255,.6); display: block; font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; }
+    .contact-info .row-i a { color: #fff; text-decoration: none; font-weight: 500; }
+    .contact-info .row-i a:hover { color: var(--dg-lime); }
+    .contact-form { background: #fff; border: 1px solid var(--dg-line); border-radius: var(--dg-radius); padding: 40px 34px; box-shadow: var(--dg-shadow); }
+    .form-control, .form-select { border-radius: 12px; padding: .85rem 1.1rem; border-color: var(--dg-line); font-size: .93rem; }
+    .form-control:focus, .form-select:focus { border-color: var(--dg-lime); box-shadow: 0 0 0 4px rgba(133,196,28,.18); }
+    .form-label { font-weight: 600; font-size: .85rem; font-family: var(--dg-font-head); }
+    .social-btn { width: 40px; height: 40px; border-radius: 50%; display: inline-grid; place-items: center; background: rgba(255,255,255,.08); color: #fff; text-decoration: none; transition: all .25s; }
+    .social-btn:hover { background: var(--dg-lime); color: var(--dg-forest); transform: translateY(-3px); }
+
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+    footer { background: #0b2016; color: rgba(255,255,255,.7); }
+    footer h6 { color: #fff; font-size: .85rem; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 18px; }
+    footer ul { list-style: none; padding: 0; margin: 0; }
+    footer ul li { margin-bottom: 9px; }
+    footer ul a { color: rgba(255,255,255,.65); text-decoration: none; font-size: .9rem; transition: all .2s; }
+    footer ul a:hover { color: var(--dg-lime); padding-left: 4px; }
+    footer .brand-text { color: #fff; }
+    footer .newsletter .form-control { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.12); color: #fff; border-radius: 999px 0 0 999px; }
+    footer .newsletter .btn { border-radius: 0 999px 999px 0; }
+    footer .newsletter .form-control::placeholder { color: rgba(255,255,255,.4); }
+    footer .bottom { border-top: 1px solid rgba(255,255,255,.08); font-size: .82rem; }
+    footer .bottom a { color: rgba(255,255,255,.6); text-decoration: none; }
+    footer .bottom a:hover { color: var(--dg-lime); }
+
+    /* Floating actions */
+    .wa-float { position: fixed; right: 22px; bottom: 22px; z-index: 99; width: 56px; height: 56px; border-radius: 50%; background: #25d366; color: #fff; display: grid; place-items: center; font-size: 1.6rem; text-decoration: none; box-shadow: 0 12px 30px -8px rgba(37,211,102,.8); transition: transform .25s; }
+    .wa-float:hover { transform: scale(1.08); color: #fff; }
+    .to-top { position: fixed; right: 30px; bottom: 90px; z-index: 99; width: 42px; height: 42px; border-radius: 50%; background: var(--dg-forest); color: var(--dg-lime); border: 0; display: grid; place-items: center; opacity: 0; pointer-events: none; transition: all .3s; }
+    .to-top.show { opacity: 1; pointer-events: auto; }
+
+    /* Reveal animation */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+    .reveal[data-delay="1"] { transition-delay: .1s; }
+    .reveal[data-delay="2"] { transition-delay: .2s; }
+    .reveal[data-delay="3"] { transition-delay: .3s; }
+    .reveal[data-delay="4"] { transition-delay: .4s; }
+    .reveal[data-delay="5"] { transition-delay: .5s; }
+    @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } .hero-slide, .hero-floating, .marquee-track { animation: none; } }
+
+    /* Preloader */
+    #preloader { position: fixed; inset: 0; background: var(--dg-forest); z-index: 9999; display: grid; place-items: center; transition: opacity .5s, visibility .5s; }
+    #preloader.hide { opacity: 0; visibility: hidden; }
+    .loader { width: 54px; height: 54px; border: 4px solid rgba(255,255,255,.15); border-top-color: var(--dg-lime); border-radius: 50%; animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+<!-- Preloader -->
+<div id="preloader"><div class="loader"></div></div>
+
+<!-- ============================================================
+     TOP BAR
+     ============================================================ -->
+<div class="topbar d-none d-lg-block py-2">
+  <div class="container d-flex justify-content-between align-items-center">
+    <div class="d-flex gap-4">
+      <a href="mailto:info@divinetextile.com"><i class="bi bi-envelope-fill me-2"></i>info@divinetextile.com</a>
+      <a href="tel:+8801750000379"><i class="bi bi-telephone-fill me-2"></i>+880 1750-000379</a>
+      <span><i class="bi bi-geo-alt-fill me-2"></i>Dhaka, Bangladesh</span>
+    </div>
+    <div class="d-flex gap-3 align-items-center">
+      <a href="#" download><i class="bi bi-file-earmark-pdf-fill me-2"></i>Company Profile</a>
+      <span class="opacity-25">|</span>
+      <a href="https://www.facebook.com/divinetextile/" target="_blank" rel="noopener" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+      <a href="https://twitter.com/dglbd" target="_blank" rel="noopener" aria-label="X"><i class="bi bi-twitter-x"></i></a>
+      <a href="https://www.linkedin.com/company/divinegrouplimited" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     NAVBAR
+     ============================================================ -->
+<nav class="navbar navbar-expand-lg navbar-dg sticky-top" id="mainNav">
+  <div class="container">
+    <a class="brand" href="#top">
+      <img src="img/logo.webp" alt="Divine Group" class="brand-logo">
+      <div class="brand-text d-none d-sm-block">Divine Group<small>TEXTILE &amp; APPAREL</small></div>
+    </a>
+    <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="bi bi-list fs-2"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link active" href="#top">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#textile" role="button" data-bs-toggle="dropdown" aria-expanded="false">Textile</a>
+          <ul class="dropdown-menu">
+            <li><h6 class="dropdown-header">Fabric Division</h6></li>
+            <li><a class="dropdown-item" href="#textile"><i class="bi bi-bezier2 me-2 text-lime"></i>Spinning</a></li>
+            <li><a class="dropdown-item" href="#textile"><i class="bi bi-droplet-half me-2 text-lime"></i>Yarn Dyeing</a></li>
+            <li><a class="dropdown-item" href="#textile"><i class="bi bi-grid-3x3-gap me-2 text-lime"></i>Knitting</a></li>
+            <li><a class="dropdown-item" href="#textile"><i class="bi bi-palette me-2 text-lime"></i>Dyeing</a></li>
+            <li><a class="dropdown-item" href="#textile"><i class="bi bi-stars me-2 text-lime"></i>Finishing</a></li>
+            <li><a class="dropdown-item" href="#textile"><i class="bi bi-brush me-2 text-lime"></i>All Over Print</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#garments" role="button" data-bs-toggle="dropdown" aria-expanded="false">Garments</a>
+          <ul class="dropdown-menu">
+            <li><h6 class="dropdown-header">Apparel Division</h6></li>
+            <li><a class="dropdown-item" href="#garments">Sample &amp; CAD</a></li>
+            <li><a class="dropdown-item" href="#garments">Cutting</a></li>
+            <li><a class="dropdown-item" href="#garments">Placement Print</a></li>
+            <li><a class="dropdown-item" href="#garments">Embroidery</a></li>
+            <li><a class="dropdown-item" href="#garments">Sewing</a></li>
+            <li><a class="dropdown-item" href="#garments">Finishing &amp; Packing</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Group</a>
+          <div class="dropdown-menu mega p-3">
+            <div class="row g-2">
+              <div class="col-lg-6">
+                <h6 class="dropdown-header">Auxiliary Units</h6>
+                <a class="dropdown-item" href="#">Laboratory</a>
+                <a class="dropdown-item" href="#">Chemical Plant</a>
+                <a class="dropdown-item" href="#">Garments Wash</a>
+                <a class="dropdown-item" href="#">Accessories</a>
+              </div>
+              <div class="col-lg-6">
+                <h6 class="dropdown-header">Our Portfolio</h6>
+                <a class="dropdown-item" href="#">Hospital</a>
+                <a class="dropdown-item" href="#">Nursing Institute</a>
+                <a class="dropdown-item" href="#">Hotel</a>
+                <a class="dropdown-item" href="#">Feed Mill &amp; Agro</a>
+                <a class="dropdown-item" href="#">Packaging &amp; Printing</a>
+                <a class="dropdown-item" href="#">Welfare Trust</a>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="#sustainability">Sustainability</a></li>
+        <li class="nav-item"><a class="nav-link" href="#products">Products</a></li>
+        <li class="nav-item ms-lg-3 mt-3 mt-lg-0"><a class="btn btn-lime btn-sm px-4" href="#contact">Get a Quote <i class="bi bi-arrow-right ms-1"></i></a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<header class="hero" id="top">
+  <div class="hero-slide active" style="background-image:url('img/hero-3.webp')"></div>
+  <div class="hero-slide" style="background-image:url('img/hero-2.webp')"></div>
+  <div class="hero-slide" style="background-image:url('img/hero-4.webp')"></div>
+  <div class="hero-dots d-none d-lg-flex" id="heroDots" aria-hidden="true"><button class="active"></button><button></button><button></button></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-xl-7">
+        <span class="hero-badge reveal in"><span class="dot"></span> Vertically integrated since 1996</span>
+        <h1 class="mt-4 mb-4 reveal in" data-delay="1">Redefining Knitwear Excellence With <span class="accent">Sustainable</span> Fabric Innovation</h1>
+        <p class="lead mb-5 reveal in" data-delay="2">From fibre to finished garment under one roof. We chase the future with responsible manufacturing, inch-perfect quality and a 15,000-strong team built for your brand.</p>
+        <div class="d-flex flex-wrap gap-3 reveal in" data-delay="3">
+          <a href="#contact" class="btn btn-lime btn-lg">Start a Project <i class="bi bi-arrow-right ms-1"></i></a>
+          <a href="#textile" class="btn btn-outline-light-2 btn-lg"><i class="bi bi-play-circle me-2"></i>Explore Capabilities</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-floating d-none d-xl-block" style="right: 10%;">
+    <div class="big">87%</div>
+    <div class="fw-semibold mt-1">Right-First-Time Dyeing</div>
+    <div class="small text-light-70 mt-2">Precision colour matching with a 1:5 liquor ratio across 30 tons of fabric every day.</div>
+  </div>
+  <div class="scroll-hint d-none d-md-block">Scroll <i class="bi bi-chevron-down mt-1"></i></div>
+</header>
+
+<!-- Stats strip -->
+<div class="container stats-strip">
+  <div class="stats-card reveal">
+    <div class="row g-0">
+      <div class="col-6 col-md-3 stat"><div class="num"><span class="counter" data-target="15000">0</span><span class="accent">+</span></div><div class="lbl">Team Members</div></div>
+      <div class="col-6 col-md-3 stat"><div class="num"><span class="accent">$</span><span class="counter" data-target="100">0</span>M</div><div class="lbl">Annual Revenue</div></div>
+      <div class="col-6 col-md-3 stat"><div class="num"><span class="counter" data-target="24">0</span><span class="accent">M</span></div><div class="lbl">Apparel Produced / Year</div></div>
+      <div class="col-6 col-md-3 stat"><div class="num"><span class="counter" data-target="109">0</span><span class="accent"> t</span></div><div class="lbl">Packaging Recycled</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     ABOUT — 5 Reasons
+     ============================================================ -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6 reveal">
+        <div class="about-img-wrap">
+          <img class="about-img" src="img/about.webp" alt="Divine Group factory campus">
+          <img class="about-img-2 d-none d-md-block" src="img/hero-1.webp" alt="Aerial view of the Divine Group facility">
+          <div class="about-badge"><div class="y">28+</div><div class="t">Years of Excellence</div></div>
+        </div>
+      </div>
+      <div class="col-lg-6 reveal" data-delay="1">
+        <span class="eyebrow">About Divine Group</span>
+        <h2 class="section-title">5 Reasons We Are <span class="text-lime">Special</span></h2>
+        <p class="section-lead mb-4">Ever since our inception in 1996 it has been our sole purpose to produce high quality apparels made to meet the needs of our partner customers, with inch-perfect accuracy and high reliability.</p>
+        <div class="d-flex flex-column gap-1">
+          <div class="reason"><div class="ic"><i class="bi bi-lightbulb"></i></div><div><h6>Fabric Innovation &amp; Advanced R&amp;D</h6><p>In-house laboratory, colour kitchen and development team create new constructions and finishes every season.</p></div></div>
+          <div class="reason"><div class="ic"><i class="bi bi-tree"></i></div><div><h6>Sustainability Commitment</h6><p>Effluent treatment, 40% lower water use and renewable energy power a cleaner supply chain.</p></div></div>
+          <div class="reason"><div class="ic"><i class="bi bi-patch-check"></i></div><div><h6>Global Certifications &amp; Standards</h6><p>Audited and certified by the world's leading social, environmental and product-safety bodies.</p></div></div>
+          <div class="reason"><div class="ic"><i class="bi bi-cpu"></i></div><div><h6>Technology Integration</h6><p>Japanese sewing lines, auto chemical dispensers and digital tracking from order to shipment.</p></div></div>
+          <div class="reason"><div class="ic"><i class="bi bi-award"></i></div><div><h6>Superior Product Quality</h6><p>Defects per hundred units under 9.5% with continuous inline QA across every production stage.</p></div></div>
+        </div>
+        <a href="#process" class="btn btn-outline-forest mt-4">Our Process <i class="bi bi-arrow-right ms-1"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PROCESS
+     ============================================================ -->
+<section class="section bg-mist" id="process">
+  <div class="container">
+    <div class="text-center mb-5 reveal">
+      <span class="eyebrow center">Our Process</span>
+      <h2 class="section-title">Driving Impact Through Responsible Innovation</h2>
+      <p class="section-lead mx-auto">From initial idea to final delivery, our structured process eliminates guesswork and ensures your knitwear project is a success. We are with you at every step.</p>
+    </div>
+    <div class="row g-4 position-relative">
+      <div class="process-line d-none d-xl-block"></div>
+      <div class="col-md-6 col-xl reveal" data-delay="1"><div class="process-step"><span class="no">01</span><div class="ic"><i class="bi bi-chat-square-dots"></i></div><h5>Consultation &amp; Strategy</h5><p>We listen to your vision, discuss your market and define project goals to create a clear, actionable plan.</p></div></div>
+      <div class="col-md-6 col-xl reveal" data-delay="2"><div class="process-step"><span class="no">02</span><div class="ic"><i class="bi bi-vector-pen"></i></div><h5>Design &amp; Development</h5><p>Designers and technicians create patterns and precise tech packs, selecting the perfect fabrics and stitches.</p></div></div>
+      <div class="col-md-6 col-xl reveal" data-delay="3"><div class="process-step"><span class="no">03</span><div class="ic"><i class="bi bi-scissors"></i></div><h5>Sampling &amp; Prototyping</h5><p>We craft physical samples for your approval, refining fit, fabric and function until it is perfect.</p></div></div>
+      <div class="col-md-6 col-xl reveal" data-delay="4"><div class="process-step"><span class="no">04</span><div class="ic"><i class="bi bi-gear-wide-connected"></i></div><h5>Production &amp; QA</h5><p>Garments are produced in state-of-the-art facilities with continuous quality checks at every stage.</p></div></div>
+      <div class="col-md-6 col-xl reveal" data-delay="5"><div class="process-step"><span class="no">05</span><div class="ic"><i class="bi bi-truck"></i></div><h5>Logistics &amp; Delivery</h5><p>We manage finishing, packaging and shipping to get your finished collection to you efficiently.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TEXTILE SERVICES
+     ============================================================ -->
+<section class="section" id="textile">
+  <div class="container">
+    <div class="row align-items-end mb-5">
+      <div class="col-lg-7 reveal">
+        <span class="eyebrow">Textile Division</span>
+        <h2 class="section-title mb-0">From Fibre to Fabric, <br class="d-none d-md-block">Engineered In-House</h2>
+      </div>
+      <div class="col-lg-5 reveal" data-delay="1">
+        <p class="mb-0 mt-3 mt-lg-0">Backward-linked spinning, yarn dyeing, knitting, dyeing, finishing and all-over printing give us full control over lead time, quality and cost.</p>
+      </div>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4 reveal" data-delay="1">
+        <a href="#contact" class="service-card">
+          <img src="img/spinning.webp" alt="Spinning" loading="lazy">
+          <div class="body"><span class="tag">Est. 2017</span><h4>Spinning</h4><p>Divine Spinning Mills converts fibre into premium yarn with state-of-the-art ring and open-end lines.</p>
+          <div class="meta"><div><b>Backward</b>Linkage</div><div><b>24/7</b>Operation</div></div></div>
+        </a>
+      </div>
+      <div class="col-md-6 col-lg-4 reveal" data-delay="2">
+        <a href="#contact" class="service-card">
+          <img src="img/yarn-dyeing.webp" alt="Yarn Dyeing" loading="lazy">
+          <div class="body"><span class="tag">6 Ton / Day</span><h4>Yarn Dyeing</h4><p>Fong's, Dilmenler and SANTEX equipment deliver clone-like uniformity across every lot.</p>
+          <div class="meta"><div><b>28</b>Machines</div><div><b>182</b>Manpower</div><div><b>58K</b>Sq. ft</div></div></div>
+        </a>
+      </div>
+      <div class="col-md-6 col-lg-4 reveal" data-delay="3">
+        <a href="#contact" class="service-card">
+          <img src="img/knitting.webp" alt="Knitting" loading="lazy">
+          <div class="body"><span class="tag">12+ Structures</span><h4>Knitting</h4><p>Single jersey, rib, interlock, pique, waffle, thermal and engineered stripes on Mayer &amp; Cie, Pailung and Shima Seiki.</p>
+          <div class="meta"><div><b>Fukuhara</b>Circular</div><div><b>Shima</b>Flat Knit</div></div></div>
+        </a>
+      </div>
+      <div class="col-md-6 col-lg-4 reveal" data-delay="1">
+        <a href="#contact" class="service-card">
+          <img src="img/dyeing.webp" alt="Dyeing" loading="lazy">
+          <div class="body"><span class="tag">30 Ton / Day</span><h4>Dyeing</h4><p>Automated chemical dispensing and a 1:5 liquor ratio for consistent colour with minimal water.</p>
+          <div class="meta"><div><b>87%</b>Right First Time</div><div><b>720</b>Manpower</div></div></div>
+        </a>
+      </div>
+      <div class="col-md-6 col-lg-4 reveal" data-delay="2">
+        <a href="#contact" class="service-card">
+          <img src="img/hero-2.webp" alt="Finishing" loading="lazy">
+          <div class="body"><span class="tag">15M Metres / Year</span><h4>Finishing</h4><p>Bio-wash, water repellency, wrinkle resistance, softening and antimicrobial treatments with eco-chemistry.</p>
+          <div class="meta"><div><b>6</b>Stenters</div><div><b>5</b>Compactors</div><div><b>-40%</b>Water</div></div></div>
+        </a>
+      </div>
+      <div class="col-md-6 col-lg-4 reveal" data-delay="3">
+        <a href="#contact" class="service-card">
+          <img src="img/aop.webp" alt="All Over Print" loading="lazy">
+          <div class="body"><span class="tag">20 Ton / Day</span><h4>All Over Print</h4><p>Pigment, reactive, disperse and discharge AOP plus neon, metallic, burn-out, puff and glow-in-the-dark effects.</p>
+          <div class="meta"><div><b>1–12</b>Colours</div><div><b>2</b>Rotary</div><div><b>1</b>Flatbed</div></div></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     GARMENTS — tabbed capabilities
+     ============================================================ -->
+<section class="section bg-mist" id="garments">
+  <div class="container">
+    <div class="text-center mb-4 reveal">
+      <span class="eyebrow center">Garments Division</span>
+      <h2 class="section-title">Precision Apparel Manufacturing</h2>
+      <p class="section-lead mx-auto">Lean, Kaizen-driven floors with over 2,100 Japanese sewing machines producing 85,000 pieces every day.</p>
+    </div>
+    <ul class="nav cap-tabs justify-content-center mb-4 reveal" id="capTabs" role="tablist">
+      <li class="nav-item" role="presentation"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-sewing" type="button" role="tab">Sewing</button></li>
+      <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-print" type="button" role="tab">Placement Print</button></li>
+      <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-emb" type="button" role="tab">Embroidery</button></li>
+      <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-sample" type="button" role="tab">Sample &amp; CAD</button></li>
+      <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-pack" type="button" role="tab">Finishing &amp; Packing</button></li>
+    </ul>
+    <div class="tab-content reveal" data-delay="1">
+      <!-- Sewing -->
+      <div class="tab-pane fade show active" id="tab-sewing" role="tabpanel">
+        <div class="cap-panel row g-0">
+          <div class="col-lg-5"><img src="img/sewing.webp" alt="Sewing lines" loading="lazy"></div>
+          <div class="col-lg-7 p-4 p-lg-5">
+            <h3 class="mb-3">Sewing</h3>
+            <p>Seventy-six sewing lines run on Kaizen, Kanban and 5S principles, with a 0.9-hour changeover that keeps small and large orders equally efficient.</p>
+            <div class="row g-3 my-3">
+              <div class="col-6 col-md-3"><div class="kpi"><b>76</b><span>Sewing Lines</span></div></div>
+              <div class="col-6 col-md-3"><div class="kpi"><b>85K</b><span>Pcs / Day</span></div></div>
+              <div class="col-6 col-md-3"><div class="kpi"><b>2100+</b><span>Japanese Machines</span></div></div>
+              <div class="col-6 col-md-3"><div class="kpi"><b>&lt;9.5%</b><span>DHU</span></div></div>
+            </div>
+            <ul class="check-list row"><li class="col-md-6">700 pcs/day sample capacity</li><li class="col-md-6">0.9 hour style changeover</li><li class="col-md-6">Inline &amp; endline QA stations</li><li class="col-md-6">Lean floor management</li></ul>
+          </div>
+        </div>
+      </div>
+      <!-- Placement Print -->
+      <div class="tab-pane fade" id="tab-print" role="tabpanel">
+        <div class="cap-panel row g-0">
+          <div class="col-lg-5"><img src="img/placement.webp" alt="Placement printing" loading="lazy"></div>
+          <div class="col-lg-7 p-4 p-lg-5">
+            <h3 class="mb-3">Placement Printing</h3>
+            <p>Logos, artwork and branding printed on precise, predetermined areas such as chest, back or sleeves, on a 1,200 ft print table.</p>
+            <div class="row g-3 my-3">
+              <div class="col-6 col-md-3"><div class="kpi"><b>5K</b><span>Pcs / Day</span></div></div>
+              <div class="col-6 col-md-3"><div class="kpi"><b>06</b><span>Octopus Machines</span></div></div>
+              <div class="col-6 col-md-3"><div class="kpi"><b>20</b><span>Heat Press Sets</span></div></div>
+              <div class="col-6 col-md-3"><div class="kpi"><b>400</b><span>Manpower</span></div></div>
+            </div>
+            <ul class="check-list row"><li class="col-md-6">Plastisol, water &amp; discharge inks</li><li class="col-md-6">High-density, foil &amp; flock</li><li class="col-md-6">04 curing sets</li><li class="col-md-6">Heat-transfer &amp; sublimation</li></ul>
+          </div>
+        </div>
+      </div>
+      <!-- Embroidery -->
+      <div class="tab-pane fade" id="tab-emb" role="tabpanel">
+        <div class="cap-panel row g-0">
+          <div class="col-lg-5"><img src="img/embroidery.webp" alt="Embroidery" loading="lazy"></div>
+          <div class="col-lg-7 p-4 p-lg-5">
+            <h3 class="mb-3">Embroidery</h3>
+            <p>Intricate patterns, motifs and logos in flat, puff and 3D styles that add a luxurious touch to over 100,000 pieces a month.</p>
+            <div class="row g-3 my-3">
+              <div class="col-6 col-md-3"><div class="kpi"><b>30M</b><span>Stitches / Day</span></div></div>
+              <div class="col-6 col-md-3"><div class="kpi"><b>09</b><span>Machines</span></div></div>
+              <div class="col-6 col-md-3"><div class="kpi"><b>107</b><span>Manpower</span></div></div>
+              <div class="col-6 col-md-3"><div class="kpi"><b>3,891</b><span>Sq. ft</span></div></div>
+            </div>
+            <ul class="check-list row"><li class="col-md-6">Flat, puff &amp; 3D embroidery</li><li class="col-md-6">Appliqué &amp; sequin work</li><li class="col-md-6">100K+ pcs / month</li><li class="col-md-6">Multi-head digitised designs</li></ul>
+          </div>
+        </div>
+      </div>
+      <!-- Sample -->
+      <div class="tab-pane fade" id="tab-sample" role="tabpanel">
+        <div class="cap-panel row g-0">
+          <div class="col-lg-5"><img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=900&q=80" alt="Sample and CAD" loading="lazy" onerror="this.onerror=null;this.src='img/knitting.webp'"></div>
+          <div class="col-lg-7 p-4 p-lg-5">
+            <h3 class="mb-3">Sample &amp; CAD</h3>
+            <p>Digital pattern making, marker optimisation and a dedicated sample floor turn tech packs into approved prototypes in days, not weeks.</p>
+            <div class="row g-3 my-3">
+              <div class="col-6 col-md-3"><div class="kpi"><b>700</b><span>Samples / Day</span></div></div>
+              <div class="col-6 col-md-3"><div class="kpi"><b>CAD</b><span>Pattern System</span></div></div>
+              <div class="col-6 col-md-3"><div class="kpi"><b>Auto</b><span>Cutting</span></div></div>
+              <div class="col-6 col-md-3"><div class="kpi"><b>3D</b><span>Virtual Fit</span></div></div>
+            </div>
+            <ul class="check-list row"><li class="col-md-6">Proto, fit, size-set &amp; PP samples</li><li class="col-md-6">Marker efficiency optimisation</li><li class="col-md-6">Fabric relaxation &amp; spreading</li><li class="col-md-6">Automatic cutting tables</li></ul>
+          </div>
+        </div>
+      </div>
+      <!-- Packing -->
+      <div class="tab-pane fade" id="tab-pack" role="tabpanel">
+        <div class="cap-panel row g-0">
+          <div class="col-lg-5"><img src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=900&q=80" alt="Finishing and packing" loading="lazy" onerror="this.onerror=null;this.src='img/sewing.webp'"></div>
+          <div class="col-lg-7 p-4 p-lg-5">
+            <h3 class="mb-3">Finishing &amp; Packing</h3>
+            <p>Garment wash, pressing, metal detection and retail-ready packing with recyclable materials, aligned with your brand's packaging standards.</p>
+            <div class="row g-3 my-3">
+              <div class="col-6 col-md-3"><div class="kpi"><b>1K</b><span>Wash Pcs / Day</span></div></div>
+              <div class="col-6 col-md-3"><div class="kpi"><b>100%</b><span>Metal Detection</span></div></div>
+              <div class="col-6 col-md-3"><div class="kpi"><b>109 t</b><span>Packaging Recycled</span></div></div>
+              <div class="col-6 col-md-3"><div class="kpi"><b>AQL</b><span>Final Audit</span></div></div>
+            </div>
+            <ul class="check-list row"><li class="col-md-6">Garment wash &amp; enzyme finishes</li><li class="col-md-6">Needle &amp; metal detection</li><li class="col-md-6">Retail-ready, hanger &amp; flat pack</li><li class="col-md-6">Carton optimisation</li></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SUSTAINABILITY
+     ============================================================ -->
+<section class="section bg-forest sustain" id="sustainability">
+  <div class="container">
+    <div class="row g-5 align-items-center">
+      <div class="col-lg-5 reveal">
+        <span class="eyebrow text-lime">Sustainability</span>
+        <h2 class="section-title">Leading the Way in Eco-Friendly Manufacturing</h2>
+        <p class="text-light-70 mb-4">Responsible production is not a department. It is how every unit in the group operates, from air and water to chemicals and energy.</p>
+        <div class="mb-3"><div class="d-flex justify-content-between small mb-1"><span>Water consumption reduced</span><b class="text-lime">40%</b></div><div class="progress-eco"><span data-w="40"></span></div></div>
+        <div class="mb-3"><div class="d-flex justify-content-between small mb-1"><span>Energy consumption reduced</span><b class="text-lime">20%</b></div><div class="progress-eco"><span data-w="20"></span></div></div>
+        <div class="mb-4"><div class="d-flex justify-content-between small mb-1"><span>Packaging waste recycled</span><b class="text-lime">109 t</b></div><div class="progress-eco"><span data-w="78"></span></div></div>
+        <a href="#" class="btn btn-lime">Sustainability Report <i class="bi bi-download ms-2"></i></a>
+      </div>
+      <div class="col-lg-7">
+        <div class="row g-3">
+          <div class="col-md-6 reveal" data-delay="1"><div class="eco-card"><div class="ic"><i class="bi bi-wind"></i></div><h5>Air Quality Control</h5><p>We reduce harmful emissions through advanced filtration and continuous monitoring.</p></div></div>
+          <div class="col-md-6 reveal" data-delay="2"><div class="eco-card"><div class="ic"><i class="bi bi-droplet"></i></div><h5>Water Treatment</h5><p>Effluent treatment plants and optimised usage across every washing and dyeing process.</p></div></div>
+          <div class="col-md-6 reveal" data-delay="3"><div class="eco-card"><div class="ic"><i class="bi bi-recycle"></i></div><h5>Waste Management</h5><p>Segregation, safe disposal and recycling of fabric, paper and packaging waste.</p></div></div>
+          <div class="col-md-6 reveal" data-delay="4"><div class="eco-card"><div class="ic"><i class="bi bi-shield-check"></i></div><h5>Chemical Safety</h5><p>ZDHC-aligned handling and storage under strict safety protocols.</p></div></div>
+          <div class="col-md-12 reveal" data-delay="5"><div class="eco-card d-md-flex align-items-center gap-4"><div class="ic flex-shrink-0 mb-3 mb-md-0"><i class="bi bi-sun"></i></div><div><h5>Energy Efficiency</h5><p>Rooftop solar, energy-saving technologies and renewable resources lower our carbon footprint year after year.</p></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PRODUCTS
+     ============================================================ -->
+<section class="section" id="products">
+  <div class="container">
+    <div class="row align-items-end mb-5">
+      <div class="col-lg-7 reveal">
+        <span class="eyebrow">Products</span>
+        <h2 class="section-title mb-0">Exceptional Quality for Discerning Clients</h2>
+      </div>
+      <div class="col-lg-5 text-lg-end reveal" data-delay="1"><a href="#contact" class="btn btn-outline-forest mt-3 mt-lg-0">Request Catalogue <i class="bi bi-arrow-right ms-1"></i></a></div>
+    </div>
+    <div class="row g-4">
+      <div class="col-6 col-md-4 col-lg-2 reveal" data-delay="1"><div class="product-card"><img src="img/products/newborn.webp" alt="Newborn" loading="lazy"><div class="label"><div><h6>Newborn</h6><small>Bodysuits · Rompers</small></div><i class="bi bi-arrow-up-right"></i></div></div></div>
+      <div class="col-6 col-md-4 col-lg-2 reveal" data-delay="2"><div class="product-card"><img src="img/products/toddler.png" alt="Toddler" loading="lazy"><div class="label"><div><h6>Toddler</h6><small>Sets · Dresses</small></div><i class="bi bi-arrow-up-right"></i></div></div></div>
+      <div class="col-6 col-md-4 col-lg-2 reveal" data-delay="3"><div class="product-card"><img src="img/products/boys.webp" alt="Boys" loading="lazy"><div class="label"><div><h6>Boys</h6><small>Tees · Hoodies</small></div><i class="bi bi-arrow-up-right"></i></div></div></div>
+      <div class="col-6 col-md-4 col-lg-2 reveal" data-delay="4"><div class="product-card"><img src="img/products/girls.png" alt="Girls" loading="lazy"><div class="label"><div><h6>Girls</h6><small>Leggings · Tops</small></div><i class="bi bi-arrow-up-right"></i></div></div></div>
+      <div class="col-6 col-md-4 col-lg-2 reveal" data-delay="5"><div class="product-card"><img src="img/products/women.png" alt="Women" loading="lazy"><div class="label"><div><h6>Women</h6><small>Knit · Loungewear</small></div><i class="bi bi-arrow-up-right"></i></div></div></div>
+      <div class="col-6 col-md-4 col-lg-2 reveal" data-delay="5"><div class="product-card"><img src="img/products/men.webp" alt="Men" loading="lazy"><div class="label"><div><h6>Men</h6><small>Polo · Sweats</small></div><i class="bi bi-arrow-up-right"></i></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CLIENTS
+     ============================================================ -->
+<section class="section-sm bg-mist" id="clients">
+  <div class="container text-center mb-4 reveal">
+    <span class="eyebrow center">Our Clients</span>
+    <h2 class="section-title">Growing Together, Thriving Forever</h2>
+  </div>
+  <div class="marquee reveal">
+    <div class="marquee-track">
+      <!-- Track is duplicated once so the marquee loops seamlessly -->
+      <div class="client-logo"><img src="img/clients/logo-1.png" alt="Client logo"></div><div class="client-logo"><img src="img/clients/logo-2.png" alt="Client logo"></div><div class="client-logo"><img src="img/clients/logo-3.png" alt="Client logo"></div><div class="client-logo"><img src="img/clients/logo-4.png" alt="Client logo"></div><div class="client-logo"><img src="img/clients/logo-5.png" alt="Client logo"></div><div class="client-logo"><img src="img/clients/logo-6.png" alt="Client logo"></div><div class="client-logo"><img src="img/clients/logo-7.png" alt="Client logo"></div><div class="client-logo"><img src="img/clients/logo-8.png" alt="Client logo"></div>
+      <div class="client-logo"><img src="img/clients/logo-1.png" alt=""></div><div class="client-logo"><img src="img/clients/logo-2.png" alt=""></div><div class="client-logo"><img src="img/clients/logo-3.png" alt=""></div><div class="client-logo"><img src="img/clients/logo-4.png" alt=""></div><div class="client-logo"><img src="img/clients/logo-5.png" alt=""></div><div class="client-logo"><img src="img/clients/logo-6.png" alt=""></div><div class="client-logo"><img src="img/clients/logo-7.png" alt=""></div><div class="client-logo"><img src="img/clients/logo-8.png" alt=""></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CERTIFICATIONS
+     ============================================================ -->
+<section class="section" id="certifications">
+  <div class="container">
+    <div class="text-center mb-5 reveal">
+      <span class="eyebrow center">Certifications</span>
+      <h2 class="section-title">Credentials That Back Every Promise</h2>
+      <p class="section-lead mx-auto">Independently audited for social compliance, environmental stewardship and product safety.</p>
+    </div>
+    <div class="row g-3 row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-7 justify-content-center">
+      <div class="col reveal" data-delay="1"><div class="cert"><img src="img/certificates/crt1.webp" alt="Certification" loading="lazy"></div></div>
+      <div class="col reveal" data-delay="1"><div class="cert"><img src="img/certificates/crt2.webp" alt="Certification" loading="lazy"></div></div>
+      <div class="col reveal" data-delay="2"><div class="cert"><img src="img/certificates/crt3.webp" alt="Certification" loading="lazy"></div></div>
+      <div class="col reveal" data-delay="2"><div class="cert"><img src="img/certificates/crt4.webp" alt="Certification" loading="lazy"></div></div>
+      <div class="col reveal" data-delay="3"><div class="cert"><img src="img/certificates/crt5.webp" alt="Certification" loading="lazy"></div></div>
+      <div class="col reveal" data-delay="3"><div class="cert"><img src="img/certificates/crt6.webp" alt="Certification" loading="lazy"></div></div>
+      <div class="col reveal" data-delay="4"><div class="cert"><img src="img/certificates/crt7.webp" alt="Certification" loading="lazy"></div></div>
+      <div class="col reveal" data-delay="1"><div class="cert"><img src="img/certificates/crt8.webp" alt="Certification" loading="lazy"></div></div>
+      <div class="col reveal" data-delay="2"><div class="cert"><img src="img/certificates/crt9.webp" alt="Certification" loading="lazy"></div></div>
+      <div class="col reveal" data-delay="2"><div class="cert"><img src="img/certificates/crt11.webp" alt="Certification" loading="lazy"></div></div>
+      <div class="col reveal" data-delay="3"><div class="cert"><img src="img/certificates/crt12.webp" alt="Certification" loading="lazy"></div></div>
+      <div class="col reveal" data-delay="3"><div class="cert"><img src="img/certificates/crt13.webp" alt="Certification" loading="lazy"></div></div>
+      <div class="col reveal" data-delay="4"><div class="cert"><img src="img/certificates/crt14.webp" alt="Certification" loading="lazy"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TESTIMONIALS
+     ============================================================ -->
+<section class="section bg-mist" id="testimonials">
+  <div class="container">
+    <div class="text-center mb-5 reveal">
+      <span class="eyebrow center">Testimonials</span>
+      <h2 class="section-title">What Our Partners Say</h2>
+    </div>
+    <!-- Sample testimonials: replace with real client quotes -->
+    <div class="row g-4">
+      <div class="col-md-4 reveal" data-delay="1"><div class="testi"><div class="stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div><p>"Divine's vertical setup cut our lead time by three weeks. The right-first-time dyeing rate is the best we've seen in the region."</p><div class="who"><div class="av">SM</div><div><b>Sophie Marchand</b><small>Head of Sourcing, European Retailer</small></div></div></div></div>
+      <div class="col-md-4 reveal" data-delay="2"><div class="testi"><div class="stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div><p>"Their sampling team understands fit. Proto to PP approval in one round is now the norm for our kidswear program."</p><div class="who"><div class="av">DK</div><div><b>Daniel Kim</b><small>Product Director, Kids Brand</small></div></div></div></div>
+      <div class="col-md-4 reveal" data-delay="3"><div class="testi"><div class="stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div><p>"Transparent, certified and genuinely invested in sustainability. Divine is a partner we're proud to list in our supply chain."</p><div class="who"><div class="av">AR</div><div><b>Amina Rahman</b><small>Sustainability Lead, Global Apparel Group</small></div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CTA
+     ============================================================ -->
+<section class="section-sm">
+  <div class="container">
+    <div class="cta-band reveal">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-8">
+          <span class="eyebrow text-lime">Let's Build Together</span>
+          <h2 class="section-title mb-2">Ready to Produce Your Next Collection?</h2>
+          <p class="text-light-70 mb-0">Share your tech pack or just an idea. Our merchandising team replies within 24 hours with a costed proposal.</p>
+        </div>
+        <div class="col-lg-4 d-flex flex-wrap gap-3 justify-content-lg-end">
+          <a href="#contact" class="btn btn-lime">Get a Quote <i class="bi bi-arrow-right ms-1"></i></a>
+          <a href="#" class="btn btn-outline-light-2" download><i class="bi bi-file-earmark-pdf me-2"></i>Profile PDF</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CONTACT
+     ============================================================ -->
+<section class="section pt-3" id="contact">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-5 reveal">
+        <div class="contact-info">
+          <span class="eyebrow text-lime">Contact</span>
+          <h4 class="mb-4">Talk to Our Team</h4>
+          <div class="row-i"><div class="ic"><i class="bi bi-geo-alt"></i></div><div><small>Head Office</small>Divine Group, Dhaka, Bangladesh</div></div>
+          <div class="row-i"><div class="ic"><i class="bi bi-telephone"></i></div><div><small>Phone / WhatsApp</small><a href="tel:+8801750000379">+880 1750-000379</a></div></div>
+          <div class="row-i"><div class="ic"><i class="bi bi-envelope"></i></div><div><small>Email</small><a href="mailto:info@divinetextile.com">info@divinetextile.com</a></div></div>
+          <div class="row-i"><div class="ic"><i class="bi bi-clock"></i></div><div><small>Working Hours</small>Sat – Thu, 9:00 AM – 6:00 PM (GMT+6)</div></div>
+          <div class="d-flex gap-2 mt-4">
+            <a class="social-btn" href="https://www.facebook.com/divinetextile/" target="_blank" rel="noopener" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+            <a class="social-btn" href="https://twitter.com/dglbd" target="_blank" rel="noopener" aria-label="X"><i class="bi bi-twitter-x"></i></a>
+            <a class="social-btn" href="https://www.linkedin.com/company/divinegrouplimited" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+            <a class="social-btn" href="https://wa.me/8801750000379" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-7 reveal" data-delay="1">
+        <form class="contact-form needs-validation" novalidate id="quoteForm">
+          <h4 class="mb-1">Request a Quote</h4>
+          <p class="small mb-4">Fill in the details and our merchandising team will get back to you.</p>
+          <div class="row g-3">
+            <div class="col-md-6"><label class="form-label" for="fName">Full Name</label><input id="fName" type="text" class="form-control" placeholder="Jane Doe" required></div>
+            <div class="col-md-6"><label class="form-label" for="fCompany">Company</label><input id="fCompany" type="text" class="form-control" placeholder="Brand / Buying House"></div>
+            <div class="col-md-6"><label class="form-label" for="fEmail">Email</label><input id="fEmail" type="email" class="form-control" placeholder="you@company.com" required></div>
+            <div class="col-md-6"><label class="form-label" for="fPhone">Phone</label><input id="fPhone" type="tel" class="form-control" placeholder="+1 555 000 0000"></div>
+            <div class="col-md-6"><label class="form-label" for="fCat">Product Category</label><select id="fCat" class="form-select" required><option value="">Select…</option><option>Newborn</option><option>Toddler</option><option>Boys</option><option>Girls</option><option>Women</option><option>Men</option></select></div>
+            <div class="col-md-6"><label class="form-label" for="fQty">Estimated Quantity</label><select id="fQty" class="form-select"><option>5,000 – 20,000 pcs</option><option>20,000 – 100,000 pcs</option><option>100,000+ pcs</option></select></div>
+            <div class="col-12"><label class="form-label" for="fMsg">Message</label><textarea id="fMsg" class="form-control" rows="4" placeholder="Tell us about your styles, fabrics, target price and delivery window…" required></textarea></div>
+            <div class="col-12 d-flex flex-wrap align-items-center gap-3">
+              <button type="submit" class="btn btn-forest">Send Request <i class="bi bi-send ms-2"></i></button>
+              <span class="small text-muted"><i class="bi bi-lock me-1"></i>Your details are kept confidential.</span>
+            </div>
+            <div class="col-12"><div class="alert alert-success d-none mb-0" id="formOk"><i class="bi bi-check-circle me-2"></i>Thank you! Your request has been received.</div></div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="pt-5">
+  <div class="container">
+    <div class="row g-4 pb-5">
+      <div class="col-lg-4">
+        <a class="brand mb-3" href="#top"><img src="img/logo-white.png" alt="Divine Group" style="height:58px;width:auto"></a>
+        <p class="small" style="color: rgba(255,255,255,.6)">A vertically integrated knitwear group from Bangladesh. Spinning, dyeing, knitting, printing and garmenting under one roof since 1996, with sustainability at the core.</p>
+        <div class="newsletter mt-4">
+          <label class="small fw-semibold text-white mb-2 d-block" for="nlEmail">Subscribe to updates</label>
+          <div class="input-group"><input id="nlEmail" type="email" class="form-control" placeholder="Email address"><button class="btn btn-lime" type="button" aria-label="Subscribe"><i class="bi bi-arrow-right"></i></button></div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3 col-lg-2"><h6>Information</h6><ul><li><a href="#about">About Us</a></li><li><a href="#products">Products</a></li><li><a href="#sustainability">Sustainability</a></li><li><a href="#contact">Contact</a></li><li><a href="#">Careers</a></li></ul></div>
+      <div class="col-6 col-md-3 col-lg-2"><h6>Textile</h6><ul><li><a href="#textile">Spinning</a></li><li><a href="#textile">Yarn Dyeing</a></li><li><a href="#textile">Knitting</a></li><li><a href="#textile">Dyeing</a></li><li><a href="#textile">Finishing</a></li><li><a href="#textile">All Over Print</a></li></ul></div>
+      <div class="col-6 col-md-3 col-lg-2"><h6>Garments</h6><ul><li><a href="#garments">Sample &amp; CAD</a></li><li><a href="#garments">Cutting</a></li><li><a href="#garments">Placement Print</a></li><li><a href="#garments">Embroidery</a></li><li><a href="#garments">Sewing</a></li><li><a href="#garments">Finishing &amp; Packing</a></li></ul></div>
+      <div class="col-6 col-md-3 col-lg-2"><h6>Auxiliary Units</h6><ul><li><a href="#">Laboratory</a></li><li><a href="#">Chemical Plant</a></li><li><a href="#">Garments Wash</a></li><li><a href="#">Accessories</a></li></ul></div>
+    </div>
+    <div class="bottom py-4 d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+      <span>© <span id="year"></span> Divine Group. All rights reserved.</span>
+      <div class="d-flex gap-3"><a href="#">Privacy Policy</a><a href="#">Terms</a><a href="#">Sitemap</a></div>
+    </div>
+  </div>
+</footer>
+
+<!-- Floating actions -->
+<a class="wa-float" href="https://wa.me/8801750000379" target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><i class="bi bi-whatsapp"></i></a>
+<button class="to-top" id="toTop" aria-label="Back to top"><i class="bi bi-arrow-up"></i></button>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Preloader
+  window.addEventListener('load', () => document.getElementById('preloader').classList.add('hide'));
+  setTimeout(() => document.getElementById('preloader').classList.add('hide'), 3000); // safety net
+
+  // Navbar shrink + back-to-top
+  const nav = document.getElementById('mainNav'), toTop = document.getElementById('toTop');
+  const onScroll = () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+    toTop.classList.toggle('show', window.scrollY > 500);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  // Active nav link on scroll
+  const navLinks = [...document.querySelectorAll('.navbar-dg .nav-link[href^="#"]')].filter(l => l.getAttribute('href').length > 1);
+  const spyObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  navLinks.map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean).forEach(s => spyObs.observe(s));
+
+  // Reveal on scroll
+  const revealEls = [...document.querySelectorAll('.reveal')];
+  const revealObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); revealObs.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => revealObs.observe(el));
+  // Safety net: anything already inside the viewport is shown even if observer callbacks are delayed
+  const revealInView = () => revealEls.forEach(el => {
+    if (!el.classList.contains('in') && el.getBoundingClientRect().top < window.innerHeight * 0.95) el.classList.add('in');
+  });
+  window.addEventListener('load', () => setTimeout(revealInView, 600));
+  window.addEventListener('scroll', revealInView, { passive: true });
+
+  // Counters
+  const animateCounter = el => {
+    const target = +el.dataset.target, dur = 1800, start = performance.now();
+    const step = now => {
+      const p = Math.min((now - start) / dur, 1), eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.floor(eased * target).toLocaleString();
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+  const counterObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { animateCounter(e.target); counterObs.unobserve(e.target); } });
+  }, { threshold: 0.6 });
+  document.querySelectorAll('.counter').forEach(el => counterObs.observe(el));
+
+  // Progress bars
+  const barObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.style.width = e.target.dataset.w + '%'; barObs.unobserve(e.target); } });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.progress-eco span').forEach(el => barObs.observe(el));
+
+  // Close mobile menu after clicking a link
+  const collapseEl = document.getElementById('navMenu');
+  collapseEl.querySelectorAll('a.nav-link:not(.dropdown-toggle), .dropdown-item, .btn').forEach(a => {
+    a.addEventListener('click', () => { if (collapseEl.classList.contains('show')) bootstrap.Collapse.getOrCreateInstance(collapseEl).hide(); });
+  });
+
+  // Contact form (demo validation — wire up to your backend / email service)
+  const form = document.getElementById('quoteForm');
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    if (!form.checkValidity()) { form.classList.add('was-validated'); return; }
+    document.getElementById('formOk').classList.remove('d-none');
+    form.reset(); form.classList.remove('was-validated');
+  });
+
+  // Hero background crossfade
+  const slides = [...document.querySelectorAll('.hero-slide')], dots = [...document.querySelectorAll('#heroDots button')];
+  let cur = 0, heroTimer;
+  const showSlide = i => {
+    cur = (i + slides.length) % slides.length;
+    slides.forEach((s, k) => s.classList.toggle('active', k === cur));
+    dots.forEach((d, k) => d.classList.toggle('active', k === cur));
+  };
+  const startHero = () => { clearInterval(heroTimer); heroTimer = setInterval(() => showSlide(cur + 1), 7000); };
+  dots.forEach((d, k) => d.addEventListener('click', () => { showSlide(k); startHero(); }));
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) startHero();
+
+  // Year
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
