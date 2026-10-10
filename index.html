@@ -123,16 +123,33 @@
     .brand-logo { height: 46px; width: auto; }
     .brand-text { font-family: var(--dg-font-head); font-weight: 700; font-size: 1.25rem; color: var(--dg-forest); line-height: 1; }
     .brand-text small { display: block; font-size: .62rem; font-weight: 500; letter-spacing: .22em; color: var(--dg-olive); margin-top: 3px; }
-    .navbar-dg .nav-link { font-family: var(--dg-font-head); font-weight: 500; font-size: .93rem; color: var(--dg-ink); padding: .5rem .9rem !important; position: relative; }
-    .navbar-dg .nav-link::after { content: ""; position: absolute; left: .9rem; right: .9rem; bottom: 2px; height: 2px; background: var(--dg-lime); transform: scaleX(0); transform-origin: left; transition: transform .25s; }
-    .navbar-dg .nav-link:hover::after, .navbar-dg .nav-link.active::after { transform: scaleX(1); }
-    .navbar-dg .dropdown-menu { border: 0; border-radius: 14px; box-shadow: 0 24px 50px -20px rgba(0,0,0,.3); padding: 10px; margin-top: 12px; min-width: 230px; }
+    .navbar-dg .nav-link { font-family: var(--dg-font-head); font-weight: 500; font-size: .93rem; color: var(--dg-ink); padding: .5rem .85rem !important; position: relative; white-space: nowrap; }
+    /* underline lives on ::before so ::after stays free for Bootstrap's dropdown caret */
+    .navbar-dg .nav-link::before { content: ""; position: absolute; left: .85rem; right: .85rem; bottom: 2px; height: 2px; background: var(--dg-lime); transform: scaleX(0); transform-origin: left; transition: transform .25s; }
+    .navbar-dg .nav-link:hover::before, .navbar-dg .nav-link.active::before, .navbar-dg .nav-link.show::before { transform: scaleX(1); }
+    .navbar-dg .dropdown-toggle::after { vertical-align: .15em; margin-left: .35em; transition: transform .25s; }
+    .navbar-dg .dropdown-toggle.show::after { transform: rotate(180deg); }
+    .navbar-dg .nav-link:focus-visible { box-shadow: none; outline: 2px solid var(--dg-lime); outline-offset: 2px; border-radius: 6px; }
+    .navbar-dg .btn { white-space: nowrap; }
+    .navbar-dg .dropdown-menu { border: 0; border-radius: 14px; box-shadow: 0 24px 50px -20px rgba(0,0,0,.3); padding: 10px; margin-top: 0; min-width: 230px; }
     .navbar-dg .dropdown-item { border-radius: 8px; padding: 9px 14px; font-size: .9rem; font-weight: 500; }
-    .navbar-dg .dropdown-item:hover { background: var(--dg-mist); color: var(--dg-olive); }
+    .navbar-dg .dropdown-item:hover, .navbar-dg .dropdown-item:focus { background: var(--dg-mist); color: var(--dg-olive); }
     .navbar-dg .dropdown-header { font-family: var(--dg-font-head); font-size: .68rem; letter-spacing: .15em; text-transform: uppercase; color: var(--dg-olive); font-weight: 600; }
-    @media (min-width: 992px) {
+    @media (min-width: 1200px) {
+      .navbar-dg .dropdown-menu { top: calc(100% + 12px); left: 0; margin-top: 0 !important; }
+      .navbar-dg .dropdown-menu.mega { left: auto; right: 0; min-width: 540px; }
+      /* invisible bridge over the 12px gap so hover isn't lost moving from link to menu */
+      .navbar-dg .dropdown-menu::before { content: ""; position: absolute; left: 0; right: 0; top: -14px; height: 14px; }
       .navbar-dg .dropdown:hover > .dropdown-menu { display: block; animation: ddIn .25s ease; }
-      .mega { min-width: 540px; }
+      .navbar-dg .dropdown:hover > .dropdown-toggle::before { transform: scaleX(1); }
+    }
+    @media (max-width: 1199.98px) {
+      /* keep the whole menu reachable on short screens — the navbar is sticky */
+      .navbar-dg .navbar-collapse { max-height: calc(100vh - 80px); overflow-y: auto; margin-top: 10px; padding-bottom: 10px; }
+      .navbar-dg .nav-link::before { display: none; }
+      .navbar-dg .nav-link.active { color: var(--dg-olive); }
+      .navbar-dg .dropdown-menu { box-shadow: none; background: var(--dg-mist); margin: 0 0 8px; }
+      .navbar-dg .dropdown-item:hover, .navbar-dg .dropdown-item:focus { background: #fff; }
     }
     @keyframes ddIn { from { opacity: 0; transform: translateY(8px);} to { opacity: 1; transform: translateY(0);} }
 
@@ -410,7 +427,7 @@
 <!-- ============================================================
      NAVBAR
      ============================================================ -->
-<nav class="navbar navbar-expand-lg navbar-dg sticky-top" id="mainNav">
+<nav class="navbar navbar-expand-xl navbar-dg sticky-top" id="mainNav">
   <div class="container">
     <a class="brand" href="#top">
       <img src="img/logo.webp" alt="Divine Group" class="brand-logo">
@@ -420,7 +437,7 @@
       <i class="bi bi-list fs-2"></i>
     </button>
     <div class="collapse navbar-collapse" id="navMenu">
-      <ul class="navbar-nav ms-auto align-items-lg-center">
+      <ul class="navbar-nav ms-auto align-items-xl-center">
         <li class="nav-item"><a class="nav-link active" href="#top">Home</a></li>
         <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
         <li class="nav-item dropdown">
@@ -449,16 +466,16 @@
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Group</a>
-          <div class="dropdown-menu mega p-3">
+          <div class="dropdown-menu dropdown-menu-xl-end mega p-3">
             <div class="row g-2">
-              <div class="col-lg-6">
+              <div class="col-sm-6">
                 <h6 class="dropdown-header">Auxiliary Units</h6>
                 <a class="dropdown-item" href="#">Laboratory</a>
                 <a class="dropdown-item" href="#">Chemical Plant</a>
                 <a class="dropdown-item" href="#">Garments Wash</a>
                 <a class="dropdown-item" href="#">Accessories</a>
               </div>
-              <div class="col-lg-6">
+              <div class="col-sm-6">
                 <h6 class="dropdown-header">Our Portfolio</h6>
                 <a class="dropdown-item" href="#">Hospital</a>
                 <a class="dropdown-item" href="#">Nursing Institute</a>
@@ -472,7 +489,7 @@
         </li>
         <li class="nav-item"><a class="nav-link" href="#sustainability">Sustainability</a></li>
         <li class="nav-item"><a class="nav-link" href="#products">Products</a></li>
-        <li class="nav-item ms-lg-3 mt-3 mt-lg-0"><a class="btn btn-lime btn-sm px-4" href="#contact">Get a Quote <i class="bi bi-arrow-right ms-1"></i></a></li>
+        <li class="nav-item ms-xl-3 mt-3 mt-xl-0"><a class="btn btn-lime btn-sm px-4" href="#contact">Get a Quote <i class="bi bi-arrow-right ms-1"></i></a></li>
       </ul>
     </div>
   </div>
